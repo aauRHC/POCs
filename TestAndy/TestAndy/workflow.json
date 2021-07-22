@@ -1,0 +1,59 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Initialize_variable_-_Test": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "Test",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "runAfter": {}
+            },
+            "Set_variable_-_Test": {
+                "type": "SetVariable",
+                "inputs": {
+                    "name": "Test",
+                    "value": "test2"
+                },
+                "runAfter": {
+                    "Initialize_variable_-_Test": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "HTTP_-_microsoft": {
+                "type": "Http",
+                "inputs": {
+                    "method": "GET",
+                    "uri": "http://www.microsoft.com"
+                },
+                "runAfter": {
+                    "Set_variable_-_Test": [
+                        "Succeeded"
+                    ]
+                }
+            }
+        },
+        "triggers": {
+            "HTTP": {
+                "type": "Http",
+                "inputs": {
+                    "method": "GET",
+                    "uri": "http://www.google.com"
+                },
+                "recurrence": {
+                    "frequency": "Day",
+                    "interval": 15
+                }
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
+    },
+    "kind": "Stateful"
+}
