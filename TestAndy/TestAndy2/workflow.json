@@ -1,0 +1,47 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Set_variable": {
+                "type": "SetVariable",
+                "inputs": {
+                    "name": "temp",
+                    "value": "temp value"
+                },
+                "runAfter": {
+                    "Initialize_variable_-_temp": [
+                        "Succeeded"
+                    ]
+                }
+            },
+            "Initialize_variable_-_temp": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "temp",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "runAfter": {}
+            }
+        },
+        "triggers": {
+            "HTTP": {
+                "type": "Http",
+                "inputs": {
+                    "method": "GET",
+                    "uri": "https://visualstudio.microsoft.com/"
+                },
+                "recurrence": {
+                    "frequency": "Second",
+                    "interval": 15
+                }
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {}
+    },
+    "kind": "Stateful"
+}
